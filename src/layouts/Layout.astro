@@ -1,0 +1,28 @@
+---
+import ClientRouter from "astro/components/ClientRouter.astro";
+ interface Props {
+	title: string;
+	description?: string;
+	image?: string;
+ }
+ const { title, description="A community of music producers and enthusiasts", image="/images/band.jpg" } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={description} />
+		<meta property="og:image" content={image} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<ClientRouter />
+	</head>
+	<body class="min-h-screen bg-gradient-to-br from-purple-700 via-blue-600 to-teal-400">
+		<slot />
+        <footer class="container mx-auto px-4 py-6 mt-20 text-center text-teal-200">
+            <p>&copy; 2025 CodeWay Academy. All rights reserved.</p>
+          </footer>
+	</body>
+</html>
