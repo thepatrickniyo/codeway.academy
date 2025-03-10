@@ -1,6 +1,8 @@
 ---
 import { ArrowRight, Code, Book, Star } from "lucide-astro";
 import Layout from "../layouts/Layout.astro"
+import DotGrid from "../components/DotGrid.astro";
+import CodeSnippet from "../components/CodeSnippet.astro";
 ---
 
 <Layout
@@ -9,10 +11,10 @@ import Layout from "../layouts/Layout.astro"
 >
 <main>
 	<div class="absolute top-[80%] left-[10%] hidden md:block">
-		<!-- <DotGrid /> -->
+		 <DotGrid />
 	</div>
 	<div class="absolute top-[100%] -right-16 hidden md:block">
-		<!-- <DotGrid /> -->
+		<DotGrid />
 	</div>
 	<main class="container mx-auto px-4 py-20">
 		<section class="text-center">
@@ -29,7 +31,7 @@ import Layout from "../layouts/Layout.astro"
 		<!-- </Link> -->
 		</section>
 
-		<!-- <CodeSnippet /> -->
+		<CodeSnippet />
 
 		<section class="mt-32 grid md:grid-cols-3 gap-12">
 		{[
@@ -37,7 +39,7 @@ import Layout from "../layouts/Layout.astro"
 			{ icon: Book, title: "Comprehensive Curriculum", description: "From basics to advanced topics, find courses for every skill level." },
 			{ icon: Star, title: "Expert Instructors", description: "Learn from industry professionals and experienced developers." }
 		].map((feature, index) => (
-			<div key={index} class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-6 text-white">
+			<div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-6 text-white">
 			<feature.icon size={40} class="text-teal-300 mb-4" />
 			<h3 class="text-xl font-semibold mb-2">{feature.title}</h3>
 			<p class="text-teal-100">{feature.description}</p>
