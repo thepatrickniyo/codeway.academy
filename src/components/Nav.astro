@@ -1,0 +1,96 @@
+---
+
+---
+
+<header class="container mx-auto px-4 py-2 sticky top-0 bg-opacity-50 backdrop-filter backdrop-blur-lg z-50">
+  <nav class="flex justify-between items-center">
+    <a href="/" class="cursor-pointer">
+      <div class="relative cursor-pointer">
+        <img src="/assets/logo-1.svg" alt="CodeWay Academy" width="80" height="30" draggable="false" />
+        <span class="left-11 top-12 text-xs text-white cursor-pointer hidden absolute md:block">Codeway Academy</span>
+      </div>
+    </a>
+    
+    <!-- Menu icon for mobile -->
+    <div class="block lg:hidden">
+      <button 
+        id="menu-toggle"
+        class="text-white hover:text-teal-200 transition focus:outline-none"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"
+          />
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Navigation links for larger screens -->
+    <ul class="hidden lg:flex space-x-6">
+      <li><a href="#" class="text-white hover:text-teal-200 transition">Courses</a></li>
+      <li><a href="#" class="text-white hover:text-teal-200 transition">Paths</a></li>
+      <li><a href="#" class="text-white hover:text-teal-200 transition">Pricing</a></li>
+      <li><a href="#" class="text-white hover:text-teal-200 transition">For Teams</a></li>
+    </ul>
+  </nav>
+
+  <!-- Fullscreen mobile menu (hidden by default) -->
+  <div id="mobile-menu" class="fixed inset-0 w-full h-full bg-black bg-opacity-95 flex flex-col items-center justify-center z-50 lg:hidden hidden">
+    <!-- Close button -->
+    <button
+      id="close-menu"
+      class="absolute top-4 right-4 text-white focus:outline-none"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+    
+    <!-- Menu items -->
+    <ul class="space-y-8 text-center">
+      <li><a href="#" class="text-white text-xl hover:text-teal-200 transition">Courses</a></li>
+      <li><a href="#" class="text-white text-xl hover:text-teal-200 transition">Paths</a></li>
+      <li><a href="#" class="text-white text-xl hover:text-teal-200 transition">Pricing</a></li>
+      <li><a href="#" class="text-white text-xl hover:text-teal-200 transition">For Teams</a></li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  // Client-side JavaScript for the mobile menu functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const closeMenu = document.getElementById('close-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Function to toggle the menu
+    menuToggle?.addEventListener('click', () => {
+      mobileMenu?.classList.remove('hidden');
+    });
+
+    // Function to close the menu
+    closeMenu?.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+    });
+  });
+</script>
