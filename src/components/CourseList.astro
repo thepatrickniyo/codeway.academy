@@ -1,0 +1,89 @@
+---
+import CourseCard from "./CourseCard.astro";
+
+interface Tag {
+  text: string;
+  color: string;
+}
+
+interface Course {
+  id: number;
+  title: string;
+  provider: string;
+  image: string;
+  rating: number;
+  students: number;
+  duration: string;
+  level: string;
+  tag?: Tag;
+  category?: string; // e.g., "Frontend", "Backend", "Fullstack"
+}
+
+interface Props {
+  courses: Course[];
+  categories: string[];
+}
+
+const { courses, categories } = Astro.props;
+---
+
+<div>
+  <!-- Filters: Search Input & Category Select -->
+  <div class="flex flex-col md:flex-row justify-between items-center gap-4 my-8 w-3/5 ">
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Search courses..."
+      class="w-full md:flex-1 px-4 py-3 border border-gray-300/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition bg-gray-800/70 text-white"
+    />
+
+    <select
+      id="categorySelect"
+      class="w-full md:w-2/5 px-4 py-3.5 border border-gray-300/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition bg-gray-800/70 text-white"
+    >
+      <option value="">All Categories</option>
+      {categories.map((category) => (
+        <option value={category}>{category}</option>
+      ))}
+    </select>
+  </div>
+
+  <!-- Course Grid -->
+  <div id="courseGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {courses.map((course) => (
+      // <div
+      //   class="course-card-wrapper h-full"
+      //   data-category={course.category}
+      //   data-title={course.title.toLowerCase()}
+      // >
+      //   <CourseCard course={course}  />
+      // </div>
+      <CourseCard course={course}  />
+    ))}
+  </div>
+</div>
+
+<script type="module">
+  const searchInput = document.getElementById('searchInput');
+  const categorySelect = document.getElementById('categorySelect');
+  const courseGrid = document.getElementById('courseGrid');
+  const courseCards = Array.from(
+    courseGrid.querySelectorAll('.course-card-wrapper')
+  );
+
+  function filterCourses() {
+    const query = searchInput.value.toLowerCase();
+    const selectedCategory = categorySelect.value;
+
+    courseCards.forEach((card) => {
+      const matchesSearch = card.dataset.title.includes(query);
+      const matchesCategory =
+        selectedCategory === '' || card.dataset.category === selectedCategory;
+
+      card.style.display = matchesSearch && matchesCategory ? '' : 'none';
+    });
+  }
+
+  searchInput.addEventListener('input', filterCourses);
+  categorySelect.addEventListener('change', filterCourses);
+</script>

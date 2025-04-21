@@ -1,0 +1,16 @@
+---
+// src/components/Banner.astro
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<section class="text-left">
+  <h1 class="text-6xl font-extrabold text-white mb-6">{title}</h1>
+  <p class="text-xl text-teal-100 mb-10 max-w-2xl text-left">
+    {description}
+  </p>
+</section>
