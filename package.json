@@ -19,6 +19,7 @@
     "@types/react-dom": "^19.1.2",
     "@types/react-is": "^19.0.0",
     "astro": "^5.4.2",
+    "dotenv": "^16.5.0",
     "groq": "^3.86.1",
     "lucide-astro": "^0.479.0",
     "react": "^19.1.0",
