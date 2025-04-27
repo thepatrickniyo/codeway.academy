@@ -1,47 +1,49 @@
-# Astro Starter Kit: Minimal
+# CodeWay Academy
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+CodeWay Academy is a platform for music producers and enthusiasts to explore courses, learn new skills, and connect with a vibrant community. This project is built using Astro, Tailwind CSS, and Sanity CMS to deliver a fast, responsive, and accessible user experience.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## Features
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- **Dynamic Course Listings**: Browse a variety of courses with detailed descriptions, tags, and durations.
+- **Reusable Components**: Modular design with reusable components like `Banner`, `CourseCard`, and `CourseGrid`.
+- **Sanity CMS Integration**: Manage course content dynamically using Sanity CMS.
+- **Responsive Design**: Fully responsive and accessible design for all devices.
 
-## 🚀 Project Structure
+## Tech Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Astro**: Static site generator for fast and modern web development.
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development.
+- **Sanity CMS**: Headless CMS for managing content dynamically.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Getting Started
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Follow the steps below to set up the project locally:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/thepatrickniyo/codeway-v0
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd codeway-v0
+   ```
+3. Install dependencies:
+   ```sh
+   pnpm install
+   ```
+4. Start the development server:
+   ```sh
+   pnpm dev
+   ```
+5. Open your browser and go to `http://localhost:4321` to view the project.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Author
+- **Email**: [Patrick Niyogitare](mailto:pniyogitare@gmail.com)
+- **X**: [Patrick Niyogitare](https://x.com/niyogitare)
+- **Linked In**: [Patrick Niyogitare](https://linkedin.com/in/patrickniyo)
 
-## 🧞 Commands
+## License
+[MIT LICENSE](https://github.com/thepatrickniyo/codeway-v0/blob/master/LICENSE)
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Copyright
+© 2025-Present CodeWay Academy™. All rights reserved.

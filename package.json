@@ -9,6 +9,10 @@
     "astro": "astro",
     "studio": "npx sanity dev"
   },
+  "author": {
+    "name": "Patrick Niyo",
+    "email": "pniyogitare@gmail.com"
+  },
   "dependencies": {
     "@astrojs/react": "^4.2.4",
     "@astrojs/tailwind": "^6.0.0",
