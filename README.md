@@ -1,6 +1,9 @@
 # CodeWay Academy
+CodeWay Academy is a modern JAMstack educational platform built with Astro, a static site generator that delivers zero-JavaScript by default while enabling interactive components when needed. 
 
-CodeWay Academy is a platform for music producers and enthusiasts to explore courses, learn new skills, and connect with a vibrant community. This project is built using Astro, Tailwind CSS, and Sanity CMS to deliver a fast, responsive, and accessible user experience.
+The architecture leverages Tailwind CSS for utility-first styling and Sanity CMS as a headless content management system, ensuring type-safe content delivery through GraphQL.
+
+The application implements server-side rendering (SSR) for optimal performance and SEO, while maintaining a component-based architecture for maintainability and scalability.
 
 ## Features
 
