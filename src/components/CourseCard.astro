@@ -1,4 +1,6 @@
 ---
+import { Image, Picture } from 'astro:assets';
+
 // src/components/CourseCard.astro
 interface Tag {
   text: string;
@@ -57,7 +59,7 @@ const getTagColor = (color: string) => {
 ---
 
 <div class="bg-gray-800/70 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 duration-300">
-  <img src={course.image} alt={course.title} class="w-full h-40 object-cover" />
+  <Picture src={course.image} alt={course.title} class="w-full h-40 object-cover" width={200} height={200} />
   <div class="p-6">
     <div class="text-gray-400 text-sm mb-2">{course.provider}</div>
     <h3 class="text-xl font-semibold text-white mb-4">{course.title}</h3>
