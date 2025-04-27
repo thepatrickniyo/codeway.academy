@@ -5,7 +5,7 @@ import CourseList, { type Course } from "../../components/CourseList.astro";
 import { loadQuery } from "../../sanity/lib/load-query";
 import type { SanityDocument } from "@sanity/client";
 
-export const prerender = true;
+// export const prerender = true;
 
 const categories = ["All Courses", "Web Development", "Data Science", "UI/UX Design", "Digital Marketing"];
 
@@ -23,11 +23,7 @@ const result = await loadQuery<SanityDocument[]>({
   }`,
 });
 
-// Log the full result to see what's coming back
-console.log("Full result from loadQuery:", result);
-
 const courses = result.data || [];
-console.log("Courses after extraction:", courses);
 ---
 
 <Layout

@@ -35,6 +35,9 @@ importers:
       astro:
         specifier: ^5.4.2
         version: 5.4.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.35.0)(typescript@5.8.2)(yaml@2.7.0)
+      groq:
+        specifier: ^3.86.1
+        version: 3.86.1
       lucide-astro:
         specifier: ^0.479.0
         version: 0.479.0(astro@5.4.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.35.0)(typescript@5.8.2)(yaml@2.7.0))
@@ -3064,6 +3067,10 @@ packages:
 
   groq@3.85.1:
     resolution: {integrity: sha512-Irhw0+syeBhzcbFViRFi9ikPhAHefSx9+Rj8A53I9av2QWJbnoN5WwHX7S0Z3LSUzMswym79HVTnXRM3MCf36g==}
+    engines: {node: '>=18'}
+
+  groq@3.86.1:
+    resolution: {integrity: sha512-87KF+20HZuoQD/E8GQk/DMM+edobO++/KHz7/5U4CK4lQ7x6BVgyBWcpLZwPNcHSn8ZBHVO3mZu7+zNV1iX0VA==}
     engines: {node: '>=18'}
 
   gunzip-maybe@1.4.2:
@@ -9046,6 +9053,8 @@ snapshots:
       - supports-color
 
   groq@3.85.1: {}
+
+  groq@3.86.1: {}
 
   gunzip-maybe@1.4.2:
     dependencies:
