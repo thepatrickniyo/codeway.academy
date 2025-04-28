@@ -5,6 +5,9 @@ The architecture leverages Tailwind CSS for utility-first styling and Sanity CMS
 
 The application implements server-side rendering (SSR) for optimal performance and SEO, while maintaining a component-based architecture for maintainability and scalability.
 
+# DeepWiki Technical Documentation
+[https://deepwiki.com/thepatrickniyo/codeway-v0/1.2-technology-stack](https://deepwiki.com/thepatrickniyo/codeway-v0/1.2-technology-stack)
+
 ## Features
 
 - **Dynamic Course Listings**: Browse a variety of courses with detailed descriptions, tags, and durations.
