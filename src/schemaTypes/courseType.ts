@@ -18,6 +18,12 @@ export default defineType({
       validation: Rule => Rule.required()
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      validation: Rule => Rule.required()
+    }),
+    defineField({
       name: 'provider',
       title: 'Provider',
       type: 'string',

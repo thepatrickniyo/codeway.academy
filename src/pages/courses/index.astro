@@ -11,6 +11,7 @@ const result = await loadQuery<SanityDocument[]>({
   query: `*[_type == "course"]{
     id,
     title,
+    slug,
     provider,
     image,
     rating,
