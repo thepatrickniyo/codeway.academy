@@ -1,11 +1,10 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-
 import tailwind from '@astrojs/tailwind';
-
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
 import vercel from '@astrojs/vercel'
+import icon from "astro-icon";
 
 // import dotenv from 'dotenv';
 // dotenv.config();
@@ -24,7 +23,8 @@ export default defineConfig({
         studioUrl: '/admin'
       }
     }), 
-    react()
+    react(),
+    icon()
   ],
   output: 'server',
   adapter: vercel(),
