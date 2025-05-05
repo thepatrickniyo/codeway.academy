@@ -4,13 +4,15 @@ import {schemaTypes} from './src/schemaTypes'
 
 // import dotenv from 'dotenv';
 // dotenv.config();
+const SANITY_PROJECT_ID = import.meta.env.SANITY_PROJECT_ID;
+const SANITY_DATASET = import.meta.env.SANITY_DATASET;
 
 export default defineConfig({
   basePath: '/admin',
   name: 'default',
   title: 'codeway',
-  // projectId: process.env.SANITY_PROJECT_ID!,
-  // dataset: process.env.SANITY_DATASET!,
+  // projectId: SANITY_PROJECT_ID,
+  // dataset: SANITY_DATASET,
   projectId: 'y0hw9umf',
   dataset: 'courses',
   plugins: [structureTool()],
