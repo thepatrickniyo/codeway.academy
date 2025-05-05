@@ -1,0 +1,120 @@
+---
+import { Icon } from 'astro-icon/components';
+
+// Dummy ratings data
+const ratingsData = {
+  averageRating: 4.6,
+  totalRatings: 3166,
+  distribution: [
+    { stars: 5, percentage: 75 },
+    { stars: 4, percentage: 18 },
+    { stars: 3, percentage: 5 },
+    { stars: 2, percentage: 1 },
+    { stars: 1, percentage: 1 }
+  ],
+  reviews: [
+    {
+      id: 1,
+      user: "Alex M.",
+      rating: 5,
+      date: "March 15, 2025",
+      comment: "This course exceeded my expectations. The instructor's explanations were clear and the projects were challenging but doable."
+    },
+    {
+      id: 2,
+      user: "Sarah K.",
+      rating: 4,
+      date: "February 28, 2025",
+      comment: "Great content and well structured. I would have appreciated more real-world examples, but overall very satisfied."
+    }
+  ]
+};
+---
+
+<section class="mt-8 bg-white/5 rounded-md p-6 border border-white/10">
+  <h2 class="font-bold text-xl text-white mb-6">Student Feedback</h2>
+  
+  <div class="flex flex-col md:flex-row gap-8">
+    <!-- Left side - Rating summary -->
+    <div class="flex-1">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="text-center">
+          <div class="text-5xl font-bold text-white">{ratingsData.averageRating}</div>
+          <div class="text-white/70 text-sm mt-1">out of 5</div>
+        </div>
+        
+        <div>
+          <div class="flex text-yellow-400 mb-1">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Icon 
+                name={i < Math.floor(ratingsData.averageRating) ? "star-filled" : (i < ratingsData.averageRating ? "star-half" : "star")} 
+                class="w-5 h-5"
+              />
+            ))}
+          </div>
+          <div class="text-white/70 text-sm">{ratingsData.totalRatings.toLocaleString()} ratings</div>
+        </div>
+      </div>
+      
+      <!-- Rating distribution bars -->
+      <div class="space-y-2 max-w-md">
+        {ratingsData.distribution.map((item) => (
+          <div class="flex items-center gap-3">
+            <div class="text-white/70 w-8 text-sm">{item.stars}</div>
+            <div class="flex items-center text-yellow-400">
+              <Icon name="star-filled" class="w-4 h-4" />
+            </div>
+            <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+              <div 
+                class="h-full bg-teal-500 rounded-full" 
+                style={`width: ${item.percentage}%`}
+              ></div>
+            </div>
+            <div class="text-white/70 w-10 text-sm text-right">{item.percentage}%</div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <!-- Right side - Reviews preview -->
+    <div class="flex-1">
+      <h3 class="text-lg font-semibold text-white mb-4">Recent Reviews</h3>
+      
+      <div class="space-y-6">
+        {ratingsData.reviews.map((review) => (
+          <div class="border-b border-white/10 pb-4 last:border-0">
+            <div class="flex items-center justify-between mb-2">
+              <div class="font-medium text-white">{review.user}</div>
+              <div class="text-white/60 text-sm">{review.date}</div>
+            </div>
+            
+            <div class="flex text-yellow-400 mb-2">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Icon 
+                  name={i < review.rating ? "star-filled" : "star"} 
+                  class="w-4 h-4"
+                />
+              ))}
+            </div>
+            
+            <p class="text-white/80 text-sm">{review.comment}</p>
+          </div>
+        ))}
+      </div>
+      
+      <button class="mt-4 text-teal-400 hover:text-teal-300 transition-colors font-medium flex items-center">
+        See all reviews
+        <Icon name="arrow-right" class="w-4 h-4 ml-1" />
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Add custom styles if needed */
+  @media (max-width: 768px) {
+    .flex-1 {
+      width: 100%;
+    }
+  }
+</style>

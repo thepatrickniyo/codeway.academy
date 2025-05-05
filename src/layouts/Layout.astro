@@ -1,6 +1,7 @@
 ---
 import ClientRouter from "astro/components/ClientRouter.astro";
 import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
  interface Props {
 	title: string;
 	description?: string;
@@ -25,9 +26,7 @@ import Nav from "../components/Nav.astro";
 		<Nav />
 		<slot />
 		{showFooter && 
-        	<footer class="container mx-auto px-4 py-6 mt-20 text-center text-teal-200">
-            	<p>&copy; 2025 CodeWay Academy. All rights reserved.</p>
-          	</footer>
+        	<Footer />
 		}
 	</body>
 </html>
