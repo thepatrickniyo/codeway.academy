@@ -59,6 +59,7 @@ const contentHtml = course.content ? marked.parse(course.content) : '';
 <Layout
   title={`${course.title} | Courses`}
   description={`Learn ${course.title} from ${course.provider}. ${course.description?.substring(0, 150)}...`}
+  showFooter={false}
 >
  <main>
     <!-- Banner  -->
