@@ -1,0 +1,103 @@
+---
+import { Picture } from "astro:assets";
+import { Icon } from 'astro-icon/components';
+
+// Dummy related courses data
+const relatedCourses = [
+  {
+    id: 1,
+    title: "Advanced CSS Techniques",
+    image: "https://kinsta.com/wp-content/uploads/2024/01/wp-advanced-css-techniques.jpg",
+    hours: 8.5,
+    students: 3250,
+    rating: 4.7,
+    level: "Intermediate"
+  },
+  {
+    id: 2,
+    title: "Responsive Web Design Masterclass",
+    image: "https://www.iteachcreative.com/wp-content/uploads/2021/04/respnsive-website-design.jpg",
+    hours: 6.2,
+    students: 4870,
+    rating: 4.9,
+    level: "All Levels"
+  },
+  {
+    id: 3,
+    title: "JavaScript Fundamentals for Designers",
+    image: "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20230209193400/Top-10-JavaScript-Fundamentals-That-Every-Developer-Should-Know.png",
+    hours: 7.0,
+    students: 2180,
+    rating: 4.5,
+    level: "Beginner"
+  }
+];
+---
+
+<div class="mt-6 bg-white/5 rounded-md border border-white/10 overflow-hidden">
+  <h3 class="font-bold text-lg text-white px-4 py-3 border-b border-white/10">Related Courses</h3>
+  
+  <div class="related-courses">
+    {relatedCourses.map((course, index) => (
+      <div class={`course-item p-4 ${index !== relatedCourses.length - 1 ? 'border-b border-white/10' : ''}`}>
+        <div class="flex items-start gap-3">
+          <div class="w-20 h-20 rounded-md overflow-hidden flex-shrink-0 bg-gray-700">
+            <Picture 
+              src={course.image} 
+              alt={course.title}
+              width={80}
+              height={80}
+              class="w-full h-full object-cover"
+            />
+          </div>
+          
+          <div class="flex-1">
+            <h4 class="text-white font-medium hover:text-teal-400 transition-colors cursor-pointer">{course.title}</h4>
+            
+            <div class="mt-1 flex items-center text-sm text-white/70">
+              <span class="flex items-center">
+                <Icon name="clock" class="text-xs mr-1" />
+                {course.hours} hours
+              </span>
+              <span class="mx-2">•</span>
+              <span class="flex items-center">
+                <Icon name="user-group" class="text-xs mr-1" />
+                {course.students.toLocaleString()}
+              </span>
+            </div>
+            
+            <div class="mt-1 flex items-center text-sm">
+              <div class="flex items-center text-yellow-400">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Icon 
+                    name={i < Math.floor(course.rating) ? "star-filled" : (i < course.rating ? "star-half" : "star")} 
+                    class="text-xs"
+                  />
+                ))}
+                <span class="ml-1 text-white/70">{course.rating}</span>
+              </div>
+              <span class="mx-2 text-white/70">•</span>
+              <span class="text-white/70">{course.level}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+  
+  <div class="p-4 text-center">
+    <button class="text-teal-400 hover:text-teal-300 transition-colors text-sm font-medium">
+      View All Related Courses
+    </button>
+  </div>
+</div>
+
+<style>
+  .course-item {
+    transition: background-color 0.2s ease;
+  }
+  
+  .course-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+</style>

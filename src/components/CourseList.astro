@@ -9,6 +9,7 @@ interface Tag {
 export interface Course {
   id: number;
   title: string;
+  slug: { current: string; _type: string };
   provider: string;
   image: string;
   rating: number;
@@ -51,13 +52,6 @@ const { courses, categories } = Astro.props;
   <!-- Course Grid -->
   <div id="courseGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     {courses.map((course) => (
-      // <div
-      //   class="course-card-wrapper h-full"
-      //   data-category={course.category}
-      //   data-title={course.title.toLowerCase()}
-      // >
-      //   <CourseCard course={course}  />
-      // </div>
       <CourseCard course={course}  />
     ))}
   </div>

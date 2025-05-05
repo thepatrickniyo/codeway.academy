@@ -1,5 +1,6 @@
 ---
 import { Image, Picture } from 'astro:assets';
+import type { Course } from './CourseList.astro';
 
 // src/components/CourseCard.astro
 interface Tag {
@@ -7,17 +8,6 @@ interface Tag {
   color: string;
 }
 
-interface Course {
-  id: number;
-  title: string;
-  provider: string;
-  image: string;
-  rating: number;
-  students: number;
-  duration: string;
-  level: string;
-  tag?: Tag;
-}
 
 interface Props {
   course: Course;
@@ -58,7 +48,7 @@ const getTagColor = (color: string) => {
 };
 ---
 
-<div class="bg-gray-800/70 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 duration-300">
+<a href={`/courses/${course.slug.current}`} class="block bg-gray-800/70 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 duration-300 cursor-pointer">
   <Picture src={course.image} alt={course.title} class="w-full h-40 object-cover" width={200} height={200} />
   <div class="p-6">
     <div class="text-gray-400 text-sm mb-2">{course.provider}</div>
@@ -80,4 +70,4 @@ const getTagColor = (color: string) => {
       </span>
     )}
   </div>
-</div>
+</a>

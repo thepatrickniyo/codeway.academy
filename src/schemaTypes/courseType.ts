@@ -18,6 +18,12 @@ export default defineType({
       validation: Rule => Rule.required()
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      validation: Rule => Rule.required()
+    }),
+    defineField({
       name: 'provider',
       title: 'Provider',
       type: 'string',
@@ -82,6 +88,20 @@ export default defineType({
         collapsible: true,
         collapsed: false
       }
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      description: 'Course description with markdown support',
+      validation: Rule => Rule.required()
+    }),
+    defineField({
+      name: 'content',
+      title: 'Content',
+      type: 'text',
+      description: 'Detailed course content with markdown support',
+      validation: Rule => Rule.required()
     })
   ],
 });

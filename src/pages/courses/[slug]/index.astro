@@ -1,0 +1,212 @@
+---
+import { Picture } from "astro:assets";
+import { Icon } from 'astro-icon/components'
+import Layout from "../../../layouts/Layout.astro";
+import { loadQuery } from "../../../sanity/lib/load-query";
+import type { SanityDocument } from "@sanity/client";
+import { marked } from "marked"; 
+import CourseTopic from "../../../components/CourseTopic.astro";
+import RelatedCourses from "../../../components/RelatedCourses.astro";
+import CourseRating from "../../../components/CourseRating.astro";
+import Footer from "../../../components/Footer.astro";
+
+// Get the slug parameter from the URL
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/404');
+}
+
+// Query for the specific course with this slug
+const result = await loadQuery<SanityDocument>({
+  query: `*[_type == "course" && slug.current == $slug][0]{
+    _id,
+    id,
+    title,
+    slug,
+    provider,
+    image,
+    rating,
+    students,
+    duration,
+    level,
+    releaseDate,
+    tag->{name, color},
+    description,
+    content
+  }`,
+  params: { slug }
+});
+
+const course = result.data || null;
+
+// Handle case where course doesn't exist
+if (!course) {
+  return Astro.redirect('/404');
+}
+
+// Format date if available
+const formattedDate = course.releaseDate ? new Date(course.releaseDate).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}) : 'Not specified';
+
+// Format rating to include stars
+const ratingStars = course.rating ? '★'.repeat(Math.floor(course.rating)) + (course.rating % 1 >= 0.5 ? '½' : '') : 'Not rated';
+
+const contentHtml = course.content ? marked.parse(course.content) : '';
+---
+
+<Layout
+  title={`${course.title} | Courses`}
+  description={`Learn ${course.title} from ${course.provider}. ${course.description?.substring(0, 150)}...`}
+  showFooter={false}
+>
+ <main>
+    <!-- Banner  -->
+    <section 
+      class="relative w-full  flex items-center overflow-hidden bg-cover bg-center"
+    >
+      <div class="absolute inset-0 bg-gradient-to-r  z-0"></div>
+      <div class="container mx-auto px-4 py-12 relative z-10 flex flex-col md:flex-row justify-between items-center">
+        <div class="w-full md:w-2/3 text-white">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">{course.title}</h1>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            <div class="flex items-center">
+              <span class="text-teal-200 font-semibold mr-2">Level:</span>
+              <span>{course.level || 'All Levels'}</span>  
+            </div>
+            <div class="flex items-center">
+              <span class="text-teal-200 font-semibold mr-2">Duration:</span>
+              <span>{course.duration || 'Self-paced'}</span>
+            </div>
+            <div class="flex items-center">
+              <span class="text-teal-200 font-semibold mr-2">Released:</span>
+              <span>{formattedDate}</span>
+            </div>
+            <div class="flex items-center">
+              <span class="text-teal-200 font-semibold mr-2">Rating:</span>
+              <span>{ratingStars} ({course.rating})</span>
+            </div>
+            <div class="flex items-center">
+              <span class="text-teal-200 font-semibold mr-2">Students:</span>
+              <span>{course.students?.toLocaleString() || '0'} enrolled</span>
+            </div>
+          </div>
+          
+          <button class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-md transition duration-300 shadow-lg">
+            Enroll Today
+          </button>
+        </div>
+        
+        <div class="mt-8 md:mt-0 flex justify-center items-center">
+          <button class="group relative flex flex-col items-center justify-center">
+            <div class="bg-white/20 border-2 border-white rounded-full w-20 h-20 flex items-center justify-center transition-all duration-300 group-hover:bg-white/30 group-hover:scale-105">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10 text-white">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+            <span class="mt-2 text-white text-sm font-medium">Watch Intro</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Body  -->
+     <section class="w-full bg-gray-800/70">
+      <section class=" w-full  px-[8%] py-8 flex gap-12">
+          <!-- Left wrapper -->
+          <section class="w-4/6 text-white flex flex-col gap-4">
+              <section class="flex flex-col gap-4">
+                  <h2 class="font-lighter">WHAT’S INCLUDED</h2>
+                  <menu class="text-white/70 flex flex-col gap-2">
+                      <li class="flex items-center gap-2">
+                          <Icon name="pen" class="text-xl" />
+                          <label class="text-sm">5 chapter quizzes</label>
+                      </li>
+                      <li class="flex items-center gap-2">
+                          <Icon name="phone" class="text-xl" />
+                          <label class="text-sm">Access on tablet and phone</label>
+                      </li>
+                      <li class="flex items-center gap-2">
+                          <Icon name="certificate" class="text-xl" />
+                          <label class="text-sm">Certificate of completion</label>
+                      </li>
+                  </menu>
+              </section>
+
+              <section class="mt-4">
+                  <h2 class="font-bold text-xl">Course description</h2>
+                  <p class="text-white/70 mt-2 w-3/4">
+                      {course.description || 'No description available.'}
+                  </p>
+              </section>
+              <Picture 
+                  src={course.image}
+                  alt={course.title}
+                  class="w-3/4 rounded-md"
+                  width={200}
+                  height={200}
+              />
+              <section>
+                  <div class="prose prose-invert text-white/90 w-full md:w-3/4" set:html={contentHtml} />
+              </section>
+              <section class="mt-2">
+                  <h2 class="font-bold text-xl">Skills covered in this course</h2>
+                  <div class="flex gap-4">
+                    {
+                      ['JavaScript', 'React', 'Node.js'].map((skill) => (
+                        <div class="flex items-center gap-2 mt-2 rounded-full border border-white/20 bg-white/10 p-2 px-4">
+                          <Icon name="check" class="text-xl" />
+                          <label class="text-sm">{skill}</label>
+                      </div>
+                  ))
+                  }
+                </div>
+              </section>
+              <section class="mt-2">
+                  <h2 class="font-bold text-xl">Instructor</h2>
+                  <section class="mt-2 flex gap-4">
+                    <div>
+                        <Picture 
+                            src={"/assets/mosh.jpg"}
+                            alt={"Mosh Hamedani"}
+                            class="w-18 h-18 rounded-full"
+                            width={79}
+                            height={64}
+                        />
+                    </div>
+                    <div>
+                      <h3 class="font-bold text-lg">Mosh Hamedani</h3>
+                      <p>MBA, Developer, Expert in Data-Driven Web Applications</p>
+                      <a href="https://codewithmosh.com" target="_blank" class="text-teal-500 hover:underline">codewithmosh.com</a>
+                    </div>
+                  </section>
+              </section>
+              <section class="mt-2">
+                <CourseRating />
+              </section>
+              </section>
+
+              <!-- Right wrapper -->
+              <section class="w-2/6 flex flex-col gap-4">
+                <section>
+                  <button class="text-white flex gap-2 justify-center items-center border rounded-md border-white/20 bg-white/10 p-4 w-full :hover:bg-white/20 transition duration-300">
+                    <Icon name="share" class="text-2xl" />
+                    Share this course</button>
+                </section>
+                <section>
+                  <CourseTopic />
+                </section>
+                <section>
+                  <RelatedCourses />
+                </section>
+            </section>
+      </section>
+      <Footer />
+     </section>
+    </section>
+ </main>
+</Layout>

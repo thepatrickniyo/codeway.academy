@@ -1,0 +1,176 @@
+---
+import { Icon } from 'astro-icon/components';
+
+// Dummy course topics data
+const courseTopics = [
+  {
+    id: 1,
+    title: "Introduction to the Course",
+    duration: "45 min",
+    lessons: [
+      { id: 101, title: "Course Overview", duration: "10 min", isPreview: true },
+      { id: 102, title: "Setting Up Your Environment", duration: "15 min", isPreview: false },
+      { id: 103, title: "Understanding the Curriculum", duration: "20 min", isPreview: false },
+    ]
+  },
+  {
+    id: 2,
+    title: "Web Design Principles",
+    duration: "1h 20min",
+    lessons: [
+      { id: 201, title: "Design Fundamentals", duration: "25 min", isPreview: true },
+      { id: 202, title: "Color Theory Basics", duration: "20 min", isPreview: false },
+      { id: 203, title: "Typography in Web Design", duration: "20 min", isPreview: false },
+      { id: 204, title: "Layout and Composition", duration: "15 min", isPreview: false },
+    ]
+  },
+  {
+    id: 3,
+    title: "HTML and CSS Fundamentals",
+    duration: "2h 10min",
+    lessons: [
+      { id: 301, title: "HTML Structure and Semantics", duration: "30 min", isPreview: false },
+      { id: 302, title: "CSS Selectors and Properties", duration: "25 min", isPreview: false },
+      { id: 303, title: "Responsive Design Basics", duration: "35 min", isPreview: false },
+      { id: 304, title: "Flexbox and Grid Systems", duration: "40 min", isPreview: false },
+    ]
+  },
+  {
+    id: 4,
+    title: "JavaScript for Web Designers",
+    duration: "1h 45min",
+    lessons: [
+      { id: 401, title: "JavaScript Basics", duration: "30 min", isPreview: false },
+      { id: 402, title: "DOM Manipulation", duration: "25 min", isPreview: false },
+      { id: 403, title: "Event Handling", duration: "20 min", isPreview: false },
+      { id: 404, title: "Creating Simple Animations", duration: "30 min", isPreview: false },
+    ]
+  },
+  {
+    id: 5,
+    title: "Building a Portfolio Project",
+    duration: "3h 15min",
+    lessons: [
+      { id: 501, title: "Project Planning", duration: "25 min", isPreview: false },
+      { id: 502, title: "Design Phase", duration: "45 min", isPreview: false },
+      { id: 503, title: "Implementation", duration: "85 min", isPreview: false },
+      { id: 504, title: "Testing and Optimization", duration: "35 min", isPreview: false },
+      { id: 505, title: "Deployment", duration: "15 min", isPreview: false },
+    ]
+  }
+];
+---
+
+<div class="mt-6 bg-white/5 rounded-md border border-white/10 overflow-hidden">
+  <h3 class="font-bold text-lg text-white px-4 py-3 border-b border-white/10">Course Content</h3>
+  
+  <div class="text-white/70 text-sm px-4 py-2 bg-white/5 flex justify-between">
+    <span>5 sections • 20 lectures • 9h 15m total length</span>
+    <button class="text-teal-400 hover:text-teal-300 transition-colors">Expand all sections</button>
+  </div>
+  
+  <div class="course-topics">
+    {courseTopics.map((topic, index) => (
+      <div class="topic-container border-b border-white/10 last:border-b-0">
+        <button 
+          class="topic-header w-full px-4 py-3 flex justify-between items-center text-white hover:bg-white/10 transition-colors"
+          data-topic-id={topic.id}
+        >
+          <div class="flex items-center gap-3">
+            <Icon name="chevron-down" class="topic-icon text-xl transition-transform" />
+            <span class="font-medium">{index + 1}. {topic.title}</span>
+          </div>
+          <div class="text-sm text-white/70">{topic.duration}</div>
+        </button>
+        
+        <div class="topic-content hidden">
+          {topic.lessons.map(lesson => (
+            <div class="lesson px-4 py-3 flex justify-between items-center text-white/80 hover:bg-white/5 transition-colors border-t border-white/10 pl-12">
+              <div class="flex items-center gap-3">
+                <Icon name="play-circle" class="text-lg" />
+                <span>{lesson.title}</span>
+                {lesson.isPreview && (
+                  <span class="bg-teal-500/20 text-teal-300 text-xs px-2 py-0.5 rounded-full">Preview</span>
+                )}
+              </div>
+              <span class="text-sm">{lesson.duration}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  // Client-side JavaScript to handle the collapsible functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const topicHeaders = document.querySelectorAll('.topic-header');
+    
+    topicHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('.topic-icon');
+        
+        // Toggle content visibility
+        content!.classList.toggle('hidden');
+        
+        // Rotate icon when expanded
+        if (content!.classList.contains('hidden')) {
+          (icon as HTMLElement).style.transform = 'rotate(0deg)';
+        } else {
+          (icon as HTMLElement).style.transform = 'rotate(-180deg)';
+        }
+      });
+    });
+    
+    // Open the first topic by default
+    if (topicHeaders.length > 0) {
+      (topicHeaders[0] as HTMLElement).click();
+    }
+    
+    // Handle expand/collapse all
+    const expandAllBtn = document.querySelector('.course-topics + div button');
+    if (expandAllBtn) {
+      expandAllBtn.addEventListener('click', () => {
+        const allContents = document.querySelectorAll('.topic-content');
+        const allIcons = document.querySelectorAll('.topic-icon');
+        
+        // Check if any are hidden to determine action
+        const anyHidden = Array.from(allContents).some(content => 
+          content.classList.contains('hidden')
+        );
+        
+        allContents.forEach(content => {
+          if (anyHidden) {
+            content.classList.remove('hidden');
+          } else {
+            content.classList.add('hidden');
+          }
+        });
+        
+        allIcons.forEach(icon => {
+          (icon as HTMLElement).style.transform = anyHidden ? 'rotate(-180deg)' : 'rotate(0deg)';
+        });
+        
+        expandAllBtn.textContent = anyHidden ? 'Collapse all sections' : 'Expand all sections';
+      });
+    }
+  });
+</script>
+
+<style>
+  .topic-icon {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .topic-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+  
+  .topic-content:not(.hidden) {
+    max-height: 1000px; /* Arbitrary large value */
+  }
+</style>
