@@ -1,4 +1,5 @@
 ---
+import type { Course } from "../types/course";
 import CourseCard from "./CourseCard.astro";
 
 interface Tag {
@@ -6,19 +7,19 @@ interface Tag {
   color: string;
 }
 
-export interface Course {
-  id: number;
-  title: string;
-  slug: { current: string; _type: string };
-  provider: string;
-  image: string;
-  rating: number;
-  students: number;
-  duration: string;
-  level: string;
-  tag?: Tag;
-  category?: string; // e.g., "Frontend", "Backend", "Fullstack"
-}
+// export interface Course {
+//   id: number;
+//   title: string;
+//   slug: { current: string; _type: string };
+//   provider: string;
+//   image: string;
+//   rating: number;
+//   students: number;
+//   duration: string;
+//   level: string;
+//   tag?: Tag;
+//   category?: string; // e.g., "Frontend", "Backend", "Fullstack"
+// }
 
 interface Props {
   courses: Course[];
