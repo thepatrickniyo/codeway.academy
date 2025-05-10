@@ -28,3 +28,4 @@ pnpm-debug.log*
 .vercel/
 
 sanity.config.ts
+.vercel
