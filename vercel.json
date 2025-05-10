@@ -13,8 +13,6 @@
     { "src": "/(.*)", "dest": "/" }
   ],
   "git": {
-    "deploymentEnabled": {
-      "dev": false
-    }
+    "deploymentEnabled": false
   }
 }
