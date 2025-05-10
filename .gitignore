@@ -26,3 +26,6 @@ pnpm-debug.log*
 .sanity/
 .astro/
 .vercel/
+
+sanity.config.ts
+.vercel
