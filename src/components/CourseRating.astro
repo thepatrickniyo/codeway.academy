@@ -1,34 +1,16 @@
 ---
 import { Icon } from 'astro-icon/components';
+import type { Course } from '../types/course';
 
-// Dummy ratings data
+const course = Astro.props.course as Course;
+
 const ratingsData = {
-  averageRating: 4.6,
-  totalRatings: 3166,
-  distribution: [
-    { stars: 5, percentage: 75 },
-    { stars: 4, percentage: 18 },
-    { stars: 3, percentage: 5 },
-    { stars: 2, percentage: 1 },
-    { stars: 1, percentage: 1 }
-  ],
-  reviews: [
-    {
-      id: 1,
-      user: "Alex M.",
-      rating: 5,
-      date: "March 15, 2025",
-      comment: "This course exceeded my expectations. The instructor's explanations were clear and the projects were challenging but doable."
-    },
-    {
-      id: 2,
-      user: "Sarah K.",
-      rating: 4,
-      date: "February 28, 2025",
-      comment: "Great content and well structured. I would have appreciated more real-world examples, but overall very satisfied."
-    }
-  ]
+  averageRating:  course?.studentFeedback?.overallRating,
+  totalRatings: course?.studentFeedback?.maxRating,
+  distribution: course?.studentFeedback?.ratingDistribution,
+  reviews: course?.studentReviews
 };
+
 ---
 
 <section class="mt-8 bg-white/5 rounded-md p-6 border border-white/10">
@@ -47,18 +29,18 @@ const ratingsData = {
           <div class="flex text-yellow-400 mb-1">
             {Array.from({ length: 5 }).map((_, i) => (
               <Icon 
-                name={i < Math.floor(ratingsData.averageRating) ? "star-filled" : (i < ratingsData.averageRating ? "star-half" : "star")} 
+                name={i < Math.floor(ratingsData.averageRating!) ? "star-filled" : (i < ratingsData.averageRating! ? "star-half" : "star")} 
                 class="w-5 h-5"
               />
             ))}
           </div>
-          <div class="text-white/70 text-sm">{ratingsData.totalRatings.toLocaleString()} ratings</div>
+          <div class="text-white/70 text-sm">{ratingsData.totalRatings!.toLocaleString()} reviews</div>
         </div>
       </div>
       
       <!-- Rating distribution bars -->
       <div class="space-y-2 max-w-md">
-        {ratingsData.distribution.map((item) => (
+        {ratingsData.distribution!.map((item) => (
           <div class="flex items-center gap-3">
             <div class="text-white/70 w-8 text-sm">{item.stars}</div>
             <div class="flex items-center text-yellow-400">
@@ -81,10 +63,10 @@ const ratingsData = {
       <h3 class="text-lg font-semibold text-white mb-4">Recent Reviews</h3>
       
       <div class="space-y-6">
-        {ratingsData.reviews.map((review) => (
+        {ratingsData.reviews!.map((review) => (
           <div class="border-b border-white/10 pb-4 last:border-0">
             <div class="flex items-center justify-between mb-2">
-              <div class="font-medium text-white">{review.user}</div>
+              <div class="font-medium text-white">{review.studentName}</div>
               <div class="text-white/60 text-sm">{review.date}</div>
             </div>
             
@@ -102,10 +84,12 @@ const ratingsData = {
         ))}
       </div>
       
-      <button class="mt-4 text-teal-400 hover:text-teal-300 transition-colors font-medium flex items-center">
-        See all reviews
-        <Icon name="arrow-right" class="w-4 h-4 ml-1" />
-      </button>
+      <a href={course?.enrollmentLink}  target="_blank">
+        <button class="mt-4 text-teal-400 hover:text-teal-300 transition-colors font-medium flex items-center">
+          See all reviews
+          <Icon name="arrow-right" class="w-4 h-4 ml-1" />
+        </button>
+      </a>
     </div>
   </div>
 </section>
