@@ -9,6 +9,7 @@ import CourseTopic from "../../../components/CourseTopic.astro";
 import RelatedCourses from "../../../components/RelatedCourses.astro";
 import CourseRating from "../../../components/CourseRating.astro";
 import Footer from "../../../components/Footer.astro";
+import type { Course, CourseFeature } from "../../../types/course";
 
 // Get the slug parameter from the URL
 const { slug } = Astro.params;
@@ -33,17 +34,22 @@ const result = await loadQuery<SanityDocument>({
     releaseDate,
     tag->{name, color},
     description,
-    content
+    content,
+    enrollmentLink,
+    features,
+    skillsIncluded,
+    instructor,
+    rating,
+    studentFeedback,
+    studentReviews,
+    courseContent
   }`,
   params: { slug }
 });
-
-const course = result.data || null;
-
-// Handle case where course doesn't exist
-if (!course) {
+if (!result?.data) {
   return Astro.redirect('/404');
 }
+const course = result.data as Course;
 
 // Format date if available
 const formattedDate = course.releaseDate ? new Date(course.releaseDate).toLocaleDateString('en-US', {
@@ -96,9 +102,11 @@ const contentHtml = course.content ? marked.parse(course.content) : '';
             </div>
           </div>
           
+          <a href={course.enrollmentLink} target="_blank">
           <button class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-md transition duration-300 shadow-lg">
             Enroll Today
           </button>
+          </a>  
         </div>
         
         <div class="mt-8 md:mt-0 flex justify-center items-center">
@@ -122,18 +130,12 @@ const contentHtml = course.content ? marked.parse(course.content) : '';
               <section class="flex flex-col gap-4">
                   <h2 class="font-lighter">WHAT’S INCLUDED</h2>
                   <menu class="text-white/70 flex flex-col gap-2">
-                      <li class="flex items-center gap-2">
-                          <Icon name="pen" class="text-xl" />
-                          <label class="text-sm">5 chapter quizzes</label>
-                      </li>
-                      <li class="flex items-center gap-2">
-                          <Icon name="phone" class="text-xl" />
-                          <label class="text-sm">Access on tablet and phone</label>
-                      </li>
-                      <li class="flex items-center gap-2">
-                          <Icon name="certificate" class="text-xl" />
-                          <label class="text-sm">Certificate of completion</label>
-                      </li>
+                       {course.features?.map((feature: CourseFeature) => (
+                          <li class="flex items-center gap-2">
+                              <Icon name={feature.icon} class="text-xl" />
+                              <label class="text-sm">{feature.label}</label>
+                          </li>
+                      ))}
                   </menu>
               </section>
 
@@ -144,7 +146,7 @@ const contentHtml = course.content ? marked.parse(course.content) : '';
                   </p>
               </section>
               <Picture 
-                  src={course.image}
+                  src={course.image!}
                   alt={course.title}
                   class="w-3/4 rounded-md"
                   width={200}
@@ -157,7 +159,7 @@ const contentHtml = course.content ? marked.parse(course.content) : '';
                   <h2 class="font-bold text-xl">Skills covered in this course</h2>
                   <div class="flex gap-4">
                     {
-                      ['JavaScript', 'React', 'Node.js'].map((skill) => (
+                      course?.skillsIncluded?.map((skill:string) => (
                         <div class="flex items-center gap-2 mt-2 rounded-full border border-white/20 bg-white/10 p-2 px-4">
                           <Icon name="check" class="text-xl" />
                           <label class="text-sm">{skill}</label>
@@ -171,22 +173,23 @@ const contentHtml = course.content ? marked.parse(course.content) : '';
                   <section class="mt-2 flex gap-4">
                     <div>
                         <Picture 
-                            src={"/assets/mosh.jpg"}
-                            alt={"Mosh Hamedani"}
-                            class="w-18 h-18 rounded-full"
+                            src={course?.instructor?.pictureUrl!}
+                            alt={course?.instructor?.name!}
+                            class="w-18 h-18 rounded-full bg-white"
                             width={79}
                             height={64}
                         />
                     </div>
                     <div>
-                      <h3 class="font-bold text-lg">Mosh Hamedani</h3>
-                      <p>MBA, Developer, Expert in Data-Driven Web Applications</p>
-                      <a href="https://codewithmosh.com" target="_blank" class="text-teal-500 hover:underline">codewithmosh.com</a>
+                      <h3 class="font-bold text-lg">{course?.instructor?.name}</h3>
+                      <p>{course?.instructor?.title}</p>
+                      <p>{course?.instructor?.description}</p>
+                      <a href={course?.instructor?.profileLink?.url} target="_blank" class="text-teal-500 hover:underline">{course?.instructor?.profileLink?.label}</a>
                     </div>
                   </section>
               </section>
               <section class="mt-2">
-                <CourseRating />
+                <CourseRating course={course as Course} />
               </section>
               </section>
 
@@ -198,7 +201,7 @@ const contentHtml = course.content ? marked.parse(course.content) : '';
                     Share this course</button>
                 </section>
                 <section>
-                  <CourseTopic />
+                  <CourseTopic course={course} />
                 </section>
                 <section>
                   <RelatedCourses />
