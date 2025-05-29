@@ -346,6 +346,13 @@ export default defineType({
             validation: Rule => Rule.required()
           },
           {
+            name: 'description',
+            title: 'Module Description',
+            type: 'text',
+            description: 'Brief overview of the module content',
+            validation: Rule => Rule.required()
+          },
+          {
             name: 'subModules',
             title: 'Sub Modules',
             type: 'array',
@@ -359,6 +366,25 @@ export default defineType({
                     title: 'Title',
                     type: 'string',
                     validation: Rule => Rule.required()
+                  },
+                  {
+                    name: 'description',
+                    title: 'Description',
+                    type: 'text',
+                    description: 'Brief overview of the sub module content',
+                  },
+                  {
+                    name: 'videoUrl',
+                    title: 'Video URL',
+                    type: 'url',
+                    description: 'Link to the video lesson for this sub module'
+                  },
+                  {
+                    name: 'resources',
+                    title: 'Resources',
+                    type: 'array',
+                    of: [{type: 'url'}],
+                    description: 'Additional resources or links for this sub module'
                   },
                   {
                     name: 'duration',
