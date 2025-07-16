@@ -37,9 +37,12 @@ import { Image } from "astro:assets";
     <!-- Navigation links for larger screens -->
     <ul class="hidden lg:flex space-x-6">
       <li><a href="#" class="text-white hover:text-teal-200 transition">Courses</a></li>
-      <li><a href="#" class="text-white hover:text-teal-200 transition">Paths</a></li>
-      <li><a href="#" class="text-white hover:text-teal-200 transition">Pricing</a></li>
-      <li><a href="#" class="text-white hover:text-teal-200 transition">For Teams</a></li>
+      <li class="relative">
+        <a href="/loadmap" class="text-white hover:text-teal-200 transition">Load maps</a>
+        <span class="absolute -top-4 -right-16 bg-teal-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">Coming Soon</span>
+      </li>
+      <!-- <li><a href="#" class="text-white hover:text-teal-200 transition">Pricing</a></li> -->
+      <!-- <li><a href="#" class="text-white hover:text-teal-200 transition">For Teams</a></li> -->
     </ul>
   </nav>
 

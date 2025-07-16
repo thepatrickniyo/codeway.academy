@@ -48,26 +48,32 @@ const getTagColor = (color: string) => {
 };
 ---
 
-<a href={`/courses/${course.slug.current}`} class="block bg-gray-800/70 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 duration-300 cursor-pointer">
-  <Picture src={course.image!} alt={course.title} class="w-full h-40 object-cover" width={200} height={200} />
-  <div class="p-6">
-    <div class="text-gray-400 text-sm mb-2">{course.provider}</div>
-    <h3 class="text-xl font-semibold text-white mb-4">{course.title}</h3>
-    <div class="flex items-center mb-4">
-      <div class="flex items-center mr-4">
-        <span class="text-yellow-400">{renderStars(course.rating!)}</span>
-        <span class="text-gray-300 ml-1">{course.rating!.toFixed(1)}</span>
+<div 
+  class="course-card-wrapper" 
+  data-title={course.title.toLowerCase()} 
+  data-category={course.categories?.join(',') || ''}
+>
+  <a href={`/courses/${course.slug.current}`} class="block bg-gray-800/70 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 duration-300 cursor-pointer">
+    <Picture src={course.image!} alt={course.title} class="w-full h-40 object-cover" width={200} height={200} />
+    <div class="p-6">
+      <div class="text-gray-400 text-sm mb-2">{course.provider}</div>
+      <h3 class="text-xl font-semibold text-white mb-4">{course.title}</h3>
+      <div class="flex items-center mb-4">
+        <div class="flex items-center mr-4">
+          <span class="text-yellow-400">{renderStars(course.rating!)}</span>
+          <span class="text-gray-300 ml-1">{course.rating!.toFixed(1)}</span>
+        </div>
+        <div class="text-gray-400 text-sm">{formatStudents(course.students!)} students</div>
       </div>
-      <div class="text-gray-400 text-sm">{formatStudents(course.students!)} students</div>
+      <div class="flex justify-between text-gray-400 text-sm">
+        <span>{course.duration}</span>
+        <span>{course.level}</span>
+      </div>
+      {course.tag && (
+        <span class={`inline-block ${getTagColor(course.tag.color!)} text-white text-xs px-3 py-1 rounded-full mt-4`}>
+          {course.tag.text}
+        </span>
+      )}
     </div>
-    <div class="flex justify-between text-gray-400 text-sm">
-      <span>{course.duration}</span>
-      <span>{course.level}</span>
-    </div>
-    {course.tag && (
-      <span class={`inline-block ${getTagColor(course.tag.color!)} text-white text-xs px-3 py-1 rounded-full mt-4`}>
-        {course.tag.text}
-      </span>
-    )}
-  </div>
-</a>
+  </a>
+</div>

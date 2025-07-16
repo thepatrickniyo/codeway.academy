@@ -6,7 +6,7 @@ import { loadQuery } from "../../sanity/lib/load-query";
 import type { SanityDocument } from "@sanity/client";
 import type { Course } from "../../types/course";
 
-const categories = ["All Courses", "Web Development", "Data Science", "UI/UX Design", "Digital Marketing"];
+const categories = ["Web Development", "Data Science", "UI/UX Design", "Digital Marketing"];
 
 const result = await loadQuery<SanityDocument[]>({
   query: `*[_type == "course"]{

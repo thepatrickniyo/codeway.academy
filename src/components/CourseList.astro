@@ -7,19 +7,6 @@ interface Tag {
   color: string;
 }
 
-// export interface Course {
-//   id: number;
-//   title: string;
-//   slug: { current: string; _type: string };
-//   provider: string;
-//   image: string;
-//   rating: number;
-//   students: number;
-//   duration: string;
-//   level: string;
-//   tag?: Tag;
-//   category?: string; // e.g., "Frontend", "Backend", "Fullstack"
-// }
 
 interface Props {
   courses: Course[];
@@ -59,26 +46,37 @@ const { courses, categories } = Astro.props;
 </div>
 
 <script type="module">
-  const searchInput = document.getElementById('searchInput');
-  const categorySelect = document.getElementById('categorySelect');
-  const courseGrid = document.getElementById('courseGrid');
-  const courseCards = Array.from(
-    courseGrid.querySelectorAll('.course-card-wrapper')
-  );
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const categorySelect = document.getElementById('categorySelect');
+    const courseGrid = document.getElementById('courseGrid');
+    
+    function filterCourses() {
+      const query = searchInput.value.toLowerCase().trim();
+      const selectedCategory = categorySelect.value;
+      const courseCards = courseGrid.querySelectorAll('.course-card-wrapper');
 
-  function filterCourses() {
-    const query = searchInput.value.toLowerCase();
-    const selectedCategory = categorySelect.value;
+      courseCards.forEach((card) => {
+        const title = card.dataset.title || '';
+        const categories = card.dataset.category || '';
+        console.log("Title:", title);
+        console.log("Categories:", categories);
+        console.log("Dataset :", card.dataset);
 
-    courseCards.forEach((card) => {
-      const matchesSearch = card.dataset.title.includes(query);
-      const matchesCategory =
-        selectedCategory === '' || card.dataset.category === selectedCategory;
+        const matchesSearch = title.includes(query);
+        const matchesCategory = selectedCategory === '' || categories.includes(selectedCategory);
 
-      card.style.display = matchesSearch && matchesCategory ? '' : 'none';
-    });
-  }
+        if (matchesSearch && matchesCategory) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
 
-  searchInput.addEventListener('input', filterCourses);
-  categorySelect.addEventListener('change', filterCourses);
+    if (searchInput && categorySelect) {
+      searchInput.addEventListener('input', filterCourses);
+      categorySelect.addEventListener('change', filterCourses);
+    }
+  });
 </script>
