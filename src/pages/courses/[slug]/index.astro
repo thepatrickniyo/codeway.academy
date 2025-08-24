@@ -129,9 +129,9 @@ const contentHtml = course.content ? marked.parse(course.content) : '';
 
     <!-- Body  -->
      <section class="w-full bg-gray-800/70">
-      <section class=" w-full  px-[8%] py-8 flex gap-12">
+      <section class="w-full px-4 md:px-6 lg:px-[8%] py-8 flex flex-col lg:flex-row gap-8 lg:gap-12">
           <!-- Left wrapper -->
-          <section class="w-4/6 text-white flex flex-col gap-4">
+          <section class="w-full lg:w-4/6 text-white flex flex-col gap-6">
               <section class="flex flex-col gap-4">
                   <h2 class="font-lighter">WHAT’S INCLUDED</h2>
                   <menu class="text-white/70 flex flex-col gap-2">
@@ -145,77 +145,79 @@ const contentHtml = course.content ? marked.parse(course.content) : '';
               </section>
 
               <section class="mt-4">
-                  <h2 class="font-bold text-xl">Course description</h2>
-                  <p class="text-white/70 mt-2 w-3/4">
+                  <h2 class="font-bold text-xl mb-3">Course description</h2>
+                  <p class="text-white/70 w-full lg:w-3/4 leading-relaxed">
                       {course.description || 'No description available.'}
                   </p>
               </section>
-              <Picture 
-                  src={course.image!}
-                  alt={course.title}
-                  class="w-3/4 rounded-md"
-                  width={200}
-                  height={200}
-              />
+              <div class="w-full lg:w-3/4">
+                <Picture 
+                    src={course.image!}
+                    alt={course.title}
+                    class="w-full h-auto rounded-md"
+                    width={600}
+                    height={400}
+                />
+              </div>
               <section>
-                  <div class="prose prose-invert text-white/90 w-full md:w-3/4" set:html={contentHtml} />
+                  <div class="prose prose-invert text-white/90 w-full lg:w-3/4 max-w-none prose-sm md:prose-base" set:html={contentHtml} />
               </section>
-              <section class="mt-2">
-                  <h2 class="font-bold text-xl">Skills covered in this course</h2>
-                  <div class="flex gap-4">
+              <section class="mt-4">
+                  <h2 class="font-bold text-xl mb-4">Skills covered in this course</h2>
+                  <div class="flex flex-wrap gap-3">
                     {
                       course?.skillsIncluded?.map((skill:string) => (
-                        <div class="flex items-center gap-2 mt-2 rounded-full border border-white/20 bg-white/10 p-2 px-4">
-                          <Icon name="check" class="text-xl" />
-                          <label class="text-sm">{skill}</label>
+                        <div class="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 p-2 px-4 text-sm">
+                          <Icon name="check" class="text-lg flex-shrink-0" />
+                          <label class="whitespace-nowrap">{skill}</label>
                       </div>
                   ))
                   }
                 </div>
               </section>
-              <section class="mt-2">
-                  <h2 class="font-bold text-xl">Instructor</h2>
-                  <section class="mt-2 flex gap-4">
-                    <div>
+              <section class="mt-4">
+                  <h2 class="font-bold text-xl mb-4">Instructor</h2>
+                  <section class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex-shrink-0">
                         <Picture 
                             src={course?.instructor?.pictureUrl!}
                             alt={course?.instructor?.name!}
-                            class="w-18 h-18 rounded-full bg-white"
-                            width={79}
-                            height={64}
+                            class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white object-cover"
+                            width={80}
+                            height={80}
                         />
                     </div>
-                    <div>
+                    <div class="flex-1">
                       <h3 class="font-bold text-lg">{course?.instructor?.name}</h3>
-                      <p>{course?.instructor?.title}</p>
-                      <p>{course?.instructor?.description}</p>
-                      <a href={course?.instructor?.profileLink?.url} target="_blank" class="text-teal-500 hover:underline">{course?.instructor?.profileLink?.label}</a>
+                      <p class="text-white/80 mb-2">{course?.instructor?.title}</p>
+                      <p class="text-white/70 text-sm leading-relaxed mb-3">{course?.instructor?.description}</p>
+                      {course?.instructor?.profileLink?.url && (
+                        <a href={course?.instructor?.profileLink?.url} target="_blank" class="text-teal-400 hover:text-teal-300 hover:underline text-sm transition-colors">
+                          {course?.instructor?.profileLink?.label}
+                        </a>
+                      )}
                     </div>
                   </section>
               </section>
-              <section class="mt-2">
+              <section class="mt-4">
                 <CourseRating course={course as Course} />
               </section>
               </section>
 
               <!-- Right wrapper -->
-              <section class="w-2/6 flex flex-col gap-4">
-                <section>
-                  <ShareCourse 
-                    courseTitle={course.title}
-                    courseUrl={courseUrl}
-                    courseDescription={course.description}
-                  />
-                </section>
-                <section>
-                  <CourseTopic course={course} />
-                </section>
-                <section>
-                  <RelatedCourses 
-                    courseId={course._id} 
-                    relatedCourseRefs={course.relatedCourses}
-                  />
-                </section>
+              <section class="w-full lg:w-2/6 flex flex-col gap-6">
+                <ShareCourse 
+                  courseTitle={course.title}
+                  courseUrl={courseUrl}
+                  courseDescription={course.description}
+                />
+                
+                <CourseTopic course={course} />
+                
+                <RelatedCourses 
+                  courseId={course._id} 
+                  relatedCourseRefs={course.relatedCourses}
+                />
             </section>
       </section>
       <Footer />
