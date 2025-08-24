@@ -1,5 +1,4 @@
 ---
-import ClientRouter from "astro/components/ClientRouter.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
  interface Props {
@@ -20,7 +19,6 @@ import Footer from "../components/Footer.astro";
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-		<ClientRouter />
 	</head>
 	<body class="min-h-screen bg-gradient-to-br from-purple-700 via-blue-600 to-teal-400 w-[100vw] overflow-x-hidden">
 		<Nav />
