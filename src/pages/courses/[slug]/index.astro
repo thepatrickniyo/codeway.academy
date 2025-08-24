@@ -9,6 +9,7 @@ import CourseTopic from "../../../components/CourseTopic.astro";
 import RelatedCourses from "../../../components/RelatedCourses.astro";
 import CourseRating from "../../../components/CourseRating.astro";
 import Footer from "../../../components/Footer.astro";
+import ShareCourse from "../../../components/ShareCourse.astro";
 import type { Course, CourseFeature } from "../../../types/course";
 
 // Get the slug parameter from the URL
@@ -42,7 +43,8 @@ const result = await loadQuery<SanityDocument>({
     rating,
     studentFeedback,
     studentReviews,
-    courseContent
+    courseContent,
+    relatedCourses[]
   }`,
   params: { slug }
 });
@@ -50,6 +52,9 @@ if (!result?.data) {
   return Astro.redirect('/404');
 }
 const course = result.data as Course;
+
+// Get the full course URL for sharing
+const courseUrl = `${Astro.url.origin}/courses/${slug}`;
 
 // Format date if available
 const formattedDate = course.releaseDate ? new Date(course.releaseDate).toLocaleDateString('en-US', {
@@ -196,15 +201,20 @@ const contentHtml = course.content ? marked.parse(course.content) : '';
               <!-- Right wrapper -->
               <section class="w-2/6 flex flex-col gap-4">
                 <section>
-                  <button class="text-white flex gap-2 justify-center items-center border rounded-md border-white/20 bg-white/10 p-4 w-full :hover:bg-white/20 transition duration-300">
-                    <Icon name="share" class="text-2xl" />
-                    Share this course</button>
+                  <ShareCourse 
+                    courseTitle={course.title}
+                    courseUrl={courseUrl}
+                    courseDescription={course.description}
+                  />
                 </section>
                 <section>
                   <CourseTopic course={course} />
                 </section>
                 <section>
-                  <RelatedCourses />
+                  <RelatedCourses 
+                    courseId={course._id} 
+                    relatedCourseRefs={course.relatedCourses}
+                  />
                 </section>
             </section>
       </section>

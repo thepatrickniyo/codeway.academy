@@ -1,103 +1,170 @@
 ---
 import { Picture } from "astro:assets";
 import { Icon } from 'astro-icon/components';
+import { loadQuery } from "../sanity/lib/load-query";
+import type { SanityDocument } from "@sanity/client";
+import type { Course } from "../types/course";
 
-// Dummy related courses data
-const relatedCourses = [
-  {
-    id: 1,
-    title: "Advanced CSS Techniques",
-    image: "https://kinsta.com/wp-content/uploads/2024/01/wp-advanced-css-techniques.jpg",
-    hours: 8.5,
-    students: 3250,
-    rating: 4.7,
-    level: "Intermediate"
-  },
-  {
-    id: 2,
-    title: "Responsive Web Design Masterclass",
-    image: "https://www.iteachcreative.com/wp-content/uploads/2021/04/respnsive-website-design.jpg",
-    hours: 6.2,
-    students: 4870,
-    rating: 4.9,
-    level: "All Levels"
-  },
-  {
-    id: 3,
-    title: "JavaScript Fundamentals for Designers",
-    image: "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20230209193400/Top-10-JavaScript-Fundamentals-That-Every-Developer-Should-Know.png",
-    hours: 7.0,
-    students: 2180,
-    rating: 4.5,
-    level: "Beginner"
+interface Props {
+  courseId: string;
+  relatedCourseRefs?: Array<{
+    _key: string;
+    _ref: string;
+    _type: 'reference';
+  }>;
+}
+
+const { courseId, relatedCourseRefs } = Astro.props;
+
+let relatedCourses: Course[] = [];
+
+// Only fetch related courses if we have references
+if (relatedCourseRefs && relatedCourseRefs.length > 0) {
+  const courseIds = relatedCourseRefs.map(ref => ref._ref);
+  
+  const result = await loadQuery<Course[]>({
+    query: `*[_type == "course" && _id in $courseIds]{
+      _id,
+      id,
+      title,
+      slug,
+      provider,
+      image,
+      rating,
+      students,
+      duration,
+      level,
+      tag
+    }`,
+    params: { courseIds }
+  });
+  
+  relatedCourses = result.data || [];
+}
+
+// Don't render the component if there are no related courses
+if (!relatedCourses || relatedCourses.length === 0) {
+  return null;
+}
+
+// Function to render stars based on rating
+const renderStars = (rating: number) => {
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 >= 0.5;
+  let stars = [];
+  
+  for (let i = 0; i < fullStars; i++) {
+    stars.push('★');
   }
-];
+  
+  if (hasHalfStar && fullStars < 5) {
+    stars.push('☆');
+  }
+  
+  while (stars.length < 5) {
+    stars.push('☆');
+  }
+  
+  return stars.join('');
+};
 ---
 
 <div class="mt-6 bg-white/5 rounded-md border border-white/10 overflow-hidden">
-  <h3 class="font-bold text-lg text-white px-4 py-3 border-b border-white/10">Related Courses</h3>
+  <h3 class="font-bold text-lg text-white px-4 py-3 border-b border-white/10">
+    Related Courses ({relatedCourses.length})
+  </h3>
   
   <div class="related-courses">
     {relatedCourses.map((course, index) => (
-      <div class={`course-item p-4 ${index !== relatedCourses.length - 1 ? 'border-b border-white/10' : ''}`}>
+      <a 
+        href={`/courses/${course.slug.current}`}
+        class={`course-item block p-4 hover:bg-white/5 transition-colors duration-200 ${index !== relatedCourses.length - 1 ? 'border-b border-white/10' : ''}`}
+      >
         <div class="flex items-start gap-3">
           <div class="w-20 h-20 rounded-md overflow-hidden flex-shrink-0 bg-gray-700">
-            <Picture 
-              src={course.image} 
-              alt={course.title}
-              width={80}
-              height={80}
-              class="w-full h-full object-cover"
-            />
+            {course.image ? (
+              <Picture 
+                src={course.image} 
+                alt={course.title}
+                width={80}
+                height={80}
+                class="w-full h-full object-cover"
+              />
+            ) : (
+              <div class="w-full h-full bg-gradient-to-br from-purple-600 to-teal-600 flex items-center justify-center">
+                <Icon name="play-circle" class="text-white text-2xl" />
+              </div>
+            )}
           </div>
           
           <div class="flex-1">
-            <h4 class="text-white font-medium hover:text-teal-400 transition-colors cursor-pointer">{course.title}</h4>
+            <h4 class="text-white font-medium hover:text-teal-400 transition-colors line-clamp-2">
+              {course.title}
+            </h4>
             
-            <div class="mt-1 flex items-center text-sm text-white/70">
-              <span class="flex items-center">
-                <Icon name="clock" class="text-xs mr-1" />
-                {course.hours} hours
-              </span>
-              <span class="mx-2">•</span>
-              <span class="flex items-center">
-                <Icon name="user-group" class="text-xs mr-1" />
-                {course.students.toLocaleString()}
-              </span>
+            <p class="text-teal-300 text-sm mt-1">{course.provider}</p>
+            
+            <div class="mt-2 flex items-center text-sm text-white/70 gap-3">
+              {course.duration && (
+                <span class="flex items-center gap-1">
+                  <Icon name="clock" class="text-xs" />
+                  {course.duration}
+                </span>
+              )}
+              
+              {course.students && (
+                <span class="flex items-center gap-1">
+                  <Icon name="user-group" class="text-xs" />
+                  {course.students.toLocaleString()}
+                </span>
+              )}
             </div>
             
-            <div class="mt-1 flex items-center text-sm">
-              <div class="flex items-center text-yellow-400">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Icon 
-                    name={i < Math.floor(course.rating) ? "star-filled" : (i < course.rating ? "star-half" : "star")} 
-                    class="text-xs"
-                  />
-                ))}
-                <span class="ml-1 text-white/70">{course.rating}</span>
+            <div class="mt-2 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                {course.rating && (
+                  <div class="flex items-center text-yellow-400 text-sm">
+                    <span class="mr-1">{renderStars(course.rating)}</span>
+                    <span class="text-white/70">{course.rating.toFixed(1)}</span>
+                  </div>
+                )}
+                
+                {course.level && (
+                  <>
+                    <span class="text-white/70">•</span>
+                    <span class="text-white/70 text-sm">{course.level}</span>
+                  </>
+                )}
               </div>
-              <span class="mx-2 text-white/70">•</span>
-              <span class="text-white/70">{course.level}</span>
+              
+              {course.tag && (
+                <span class="inline-block bg-teal-600 text-white text-xs px-2 py-1 rounded-full">
+                  {course.tag.text}
+                </span>
+              )}
             </div>
           </div>
         </div>
-      </div>
+      </a>
     ))}
   </div>
   
-  <div class="p-4 text-center">
-    <button class="text-teal-400 hover:text-teal-300 transition-colors text-sm font-medium">
-      View All Related Courses
-    </button>
+  <div class="p-4 text-center border-t border-white/10">
+    <a 
+      href="/courses" 
+      class="text-teal-400 hover:text-teal-300 transition-colors text-sm font-medium inline-flex items-center gap-1"
+    >
+      View All Courses
+      <Icon name="arrow-right" class="text-xs" />
+    </a>
   </div>
 </div>
 
 <style>
-  .course-item {
-    transition: background-color 0.2s ease;
-  }
-  
-  .course-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 </style>
