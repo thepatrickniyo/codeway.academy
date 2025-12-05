@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404 - Page Not Found" showFooter={true}>
+  <main class="min-h-[calc(100vh-200px)] flex items-center justify-center px-4 py-16">
+    <div class="text-center max-w-2xl mx-auto">
+      <!-- 404 Number -->
+      <div class="mb-8">
+        <h1 class="text-9xl font-bold text-white drop-shadow-2xl animate-pulse">
+          404
+        </h1>
+      </div>
+
+      <!-- Error Message -->
+      <div class="mb-8">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          Oops! Page Not Found
+        </h2>
+        <p class="text-xl text-white/90 mb-2">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <p class="text-lg text-white/80">
+          Don't worry, let's get you back on track!
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
+        <a
+          href="/"
+          class="bg-white text-purple-700 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-100 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+        >
+          Go Home
+        </a>
+        <a
+          href="/courses"
+          class="bg-teal-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-600 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+        >
+          Browse Courses
+        </a>
+      </div>
+
+      <!-- Decorative Elements -->
+      <div class="mt-16 flex justify-center space-x-2">
+        <div class="w-3 h-3 bg-white rounded-full animate-bounce" style="animation-delay: 0s"></div>
+        <div class="w-3 h-3 bg-teal-300 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+        <div class="w-3 h-3 bg-white rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
