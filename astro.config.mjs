@@ -7,24 +7,34 @@ import vercel from '@astrojs/vercel'
 import icon from "astro-icon";
 import { loadEnv } from "vite";
 
-const { SANITY_PROJECT_ID, SANITY_DATASET } = loadEnv(
+const { SANITY_PROJECT_ID, SANITY_DATASET, ENV } = loadEnv(
   process.env.NODE_ENV || 'development',
   process.cwd(),
   ""
 );
 
-export default defineConfig({
-  integrations: [
-    tailwind(), 
+const isDevelopment = (ENV || 'development') === 'development';
+
+const integrations = [
+  tailwind(), 
+  react(),
+  icon()
+];
+
+// Only include Sanity Studio in development
+if (isDevelopment) {
+  integrations.push(
     sanity({
       projectId: SANITY_PROJECT_ID,
       dataset: SANITY_DATASET,
       useCdn: false,
       studioBasePath: '/admin',
-    }), 
-    react(),
-    icon()
-  ],
+    })
+  );
+}
+
+export default defineConfig({
+  integrations,
   output: 'server',
   adapter: vercel(),
 });
