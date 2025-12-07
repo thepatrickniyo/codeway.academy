@@ -4,12 +4,12 @@ import Banner from "../components/Banner.astro";
 ---
 
 <Layout
-  title="Load Maps - Coming Soon"
-  description="Discover structured learning paths from beginner to professional level with our upcoming Load Maps feature."
+  title="Road Maps - Coming Soon"
+  description="Discover structured learning paths from beginner to professional level with our upcoming Road Maps feature."
 >
   <main class="container mx-auto px-4 py-20">
     <Banner 
-      title="Load Maps - Coming Soon!" 
+      title="Road Maps - Coming Soon!" 
       description="Your personalized roadmap to mastery is being crafted with care."
     />
     
@@ -18,32 +18,29 @@ import Banner from "../components/Banner.astro";
       <div class="max-w-4xl mx-auto text-center">
         <div class="bg-gray-800/70 rounded-lg p-8 mb-8">
           <div class="animate-pulse mb-6">
-            <span class="inline-block bg-teal-500 text-white text-sm px-4 py-2 rounded-full">🚀 Coming Soon</span>
+            <span class="inline-block bg-teal-500 text-white text-sm px-4 py-2 rounded-full">Coming Soon</span>
           </div>
           
-          <h2 class="text-3xl font-bold text-white mb-6">What are Load Maps?</h2>
+          <h2 class="text-3xl font-bold text-white mb-6">What are Road Maps?</h2>
           
           <p class="text-gray-300 text-lg mb-8 leading-relaxed">
-            Load Maps will be your guided learning journey that takes you from complete beginner to professional level. 
+            Road Maps will be your guided learning journey that takes you from complete beginner to professional level. 
             Each map is a carefully curated collection of courses designed to build upon each other, ensuring you 
             develop the right skills in the right order.
           </p>
           
           <div class="grid md:grid-cols-3 gap-6 mb-8">
             <div class="bg-gray-700/50 rounded-lg p-6">
-              <div class="text-green-400 text-2xl mb-3">🌱</div>
               <h3 class="text-white font-semibold mb-2">Beginner</h3>
               <p class="text-gray-400 text-sm">Start your journey with foundational concepts and basic skills</p>
             </div>
             
             <div class="bg-gray-700/50 rounded-lg p-6">
-              <div class="text-yellow-400 text-2xl mb-3">⚡</div>
               <h3 class="text-white font-semibold mb-2">Intermediate</h3>
               <p class="text-gray-400 text-sm">Build confidence with practical projects and advanced techniques</p>
             </div>
             
             <div class="bg-gray-700/50 rounded-lg p-6">
-              <div class="text-purple-400 text-2xl mb-3">👑</div>
               <h3 class="text-white font-semibold mb-2">Professional</h3>
               <p class="text-gray-400 text-sm">Master industry standards and become a true expert</p>
             </div>
@@ -52,9 +49,9 @@ import Banner from "../components/Banner.astro";
         
         <!-- Search Message -->
         <div class="bg-teal-600/20 border border-teal-500/30 rounded-lg p-6 mb-8">
-          <h3 class="text-teal-300 font-semibold mb-3">🔍 Looking for something specific?</h3>
+          <h3 class="text-teal-300 font-semibold mb-3">Looking for something specific?</h3>
           <p class="text-gray-300 mb-4">
-            While Load Maps are in development, you can explore our current course collection and use the search 
+            While Road Maps are in development, you can explore our current course collection and use the search 
             and filter features to find exactly what you need.
           </p>
           <a 
@@ -71,14 +68,14 @@ import Banner from "../components/Banner.astro";
           
           <div class="grid md:grid-cols-2 gap-6">
             <div class="bg-gray-800/50 rounded-lg p-6">
-              <h4 class="text-white font-semibold mb-3">📚 Structured Learning Paths</h4>
+              <h4 class="text-white font-semibold mb-3">Structured Learning Paths</h4>
               <p class="text-gray-400">
                 Carefully sequenced courses that build upon each other, eliminating guesswork about what to learn next.
               </p>
             </div>
             
             <div class="bg-gray-800/50 rounded-lg p-6">
-              <h4 class="text-white font-semibold mb-3">🎯 Personalized Recommendations</h4>
+              <h4 class="text-white font-semibold mb-3">Personalized Recommendations</h4>
               <p class="text-gray-400">
                 AI-powered suggestions based on your current skill level, goals, and learning preferences.
               </p>
@@ -90,7 +87,7 @@ import Banner from "../components/Banner.astro";
         <div class="bg-gradient-to-r from-purple-600/20 to-teal-600/20 rounded-lg p-8 mt-12">
           <h3 class="text-2xl font-bold text-white mb-4">Be the First to Know</h3>
           <p class="text-gray-300 mb-6">
-            Get notified when Load Maps launch and receive exclusive early access to premium learning paths.
+            Get notified when Road Maps launch and receive exclusive early access to premium learning paths.
           </p>
           
           <div class="max-w-md mx-auto flex gap-3">
@@ -118,7 +115,7 @@ import Banner from "../components/Banner.astro";
     notifyButton?.addEventListener('click', () => {
       const email = emailInput?.value;
       if (email && email.includes('@')) {
-        alert('Thanks for your interest! We\'ll notify you when Load Maps are ready.');
+        alert('Thanks for your interest! We\'ll notify you when Road Maps are ready.');
         emailInput.value = '';
       } else {
         alert('Please enter a valid email address.');
