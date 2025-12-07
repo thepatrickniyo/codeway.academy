@@ -1,7 +1,8 @@
 import { defineMiddleware } from 'astro:middleware';
 
 export const onRequest = defineMiddleware((context, next) => {
-  const env = import.meta.env.ENV || 'development';
+  // Check ENV variable, fallback to NODE_ENV for production detection
+  const env = import.meta.env.ENV || import.meta.env.MODE || 'development';
   const url = context.url;
 
   // Block /admin route in production
