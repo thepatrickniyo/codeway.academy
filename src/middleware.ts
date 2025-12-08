@@ -1,8 +1,9 @@
 import { defineMiddleware } from 'astro:middleware';
 
 export const onRequest = defineMiddleware((context, next) => {
-  // Check ENV variable, fallback to NODE_ENV for production detection
-  const env = import.meta.env.ENV || import.meta.env.MODE || 'development';
+  // Check ENV variable from process.env (server-side), fallback to MODE for production detection
+  // process.env is available in server-side middleware, import.meta.env requires VITE_ prefix
+  const env = process.env.ENV || import.meta.env.MODE || 'development';
   const url = context.url;
 
   // Block /admin route in production
